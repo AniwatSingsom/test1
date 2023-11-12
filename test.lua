@@ -2,7 +2,7 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
-_G.AutoSpin = true
+_G.AutoSpin = false
 
 coroutine.wrap(function()
     while _G.AutoSpin do task.wait()
