@@ -2,6 +2,19 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
+task.wait(5)
+
+_G.AutoRejoin = true
+
+local QuestModule = require(game:GetService("ReplicatedStorage").Modules.Quests)
+
+local BossTable = {}
+for i, v in pairs(QuestModule) do
+    if v.Amount == 1 then
+        table.insert(BossTable, v.Target)
+    end
+end
+
 _G.AutoSpin = true
 
 coroutine.wrap(function()
@@ -10,11 +23,21 @@ coroutine.wrap(function()
     end
 end)()
 
+local NpcNames = {}
+for i = 0, 2 do
+   table.insert(NpcNames, BossTable[#BossTable - i])
+end
+
 local Player = game.Players.LocalPlayer
 local NotificationLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Suricato006/Scripts-Made-by-me/master/Libraries/Notification%20Library%20Optimization.lua"))()
+local InputLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Suricato006/Scripts-Made-by-me/master/Libraries/InputFunctions%20Library.lua"))()
+
+if syn and _G.AutoRejoin then
+    syn.queue_on_teleport(game:HttpGet("https://raw.githubusercontent.com/Suricato006/Scripts-Made-by-me/master/Scripts/RandomScripts/A%20Hero%20Desiny/SpamKillBoss.lua"))
+end
 
 local function RemoteAttack(Number, AttackPosition)
-    if Player.Stats.Class.Value == "Angel" then
+    if Player:WaitForChild("Stats"):WaitForChild("Class").Value == "Angel" then
         Player.Stats.Class.Value = "Puri Puri"
     end
     if Player.Stats.Class.Value == "Toxin" then
@@ -22,7 +45,7 @@ local function RemoteAttack(Number, AttackPosition)
     end
     local ClassString = string.gsub(Player.Stats.Class.Value, " ", "")
     local AttackArg = ClassString.."Attack"..tostring(Number)
-    game:GetService("ReplicatedStorage").RemoteEvent:FireServer(AttackArg, AttackPosition)
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(AttackArg, AttackPosition)
 end
 
 if Player.Character:FindFirstChild("Form") and (Player.Character.Form.Value == "") then
@@ -33,8 +56,43 @@ Player.CharacterAdded:Connect(function()
     task.wait(2)
     RemoteAttack(6)
 end)
+local function KillNpc(Npc)
+    local EHum = Npc:WaitForChild("Humanoid")
+    local EHrp = Npc:WaitForChild("HumanoidRootPart")
+    while true do task.wait()
+        local Char = Player.Character or Player.CharacterAdded:Wait()
+        local Hrp = Char:WaitForChild("HumanoidRootPart")
+        if EHum.Health == 0 then
+            break
+        end
+        Hrp.CFrame = CFrame.new(EHrp.Position - EHrp.CFrame.LookVector * 3, EHrp.Position)
+        InputLibrary.CenterMouseClick()
+        for Number=1, 5 do
+            RemoteAttack(Number, EHrp.Position)
+        end
+    end
+end
 
-local QuestModule = require(game:GetService("ReplicatedStorage").Modules.Quests)
+local function ServerHop()
+    while true do
+        pcall(function()
+            local x = {}
+            for _, v in ipairs(game:GetService("HttpService"):JSONDecode(game:HttpGetAsync("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")).data) do
+                if type(v) == "table" and v.maxPlayers > v.playing and v.id ~= game.JobId then
+                    x[#x + 1] = v.id
+                end
+            end
+            if #x > 0 then
+                game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, x[math.random(1, #x)])
+                return
+            else
+                NotificationLibrary.CustomNotification("Error", "Couldn't find any server to join")
+            end
+        end)
+        task.wait(1)
+    end
+end
+
 local function TakeQuest(QuestNpcName)
     for i, v in pairs(QuestModule) do
         if v.Target == QuestNpcName then
@@ -50,34 +108,23 @@ local function TakeQuest(QuestNpcName)
     end
 end
 
-local function KillNpc(Npc)
-    TakeQuest(Npc.Name)
-    local EHum = Npc:WaitForChild("Humanoid")
-    local EHrp = Npc:WaitForChild("HumanoidRootPart")
-    while true do task.wait()
-        local Char = Player.Character or Player.CharacterAdded:Wait()
-        local Hrp = Char:WaitForChild("HumanoidRootPart")
-        if EHum.Health == 0 then
-            break
-        end
-        Hrp.CFrame = CFrame.new(EHrp.Position - EHrp.CFrame.LookVector * 3, EHrp.Position)
-        game:GetService("ReplicatedStorage").RemoteEvent:FireServer("Punch", "Right")
-        for Number=1, 5 do
-            RemoteAttack(Number, EHrp.Position)
-        end
-    end
-end
-
 NotificationLibrary.CustomNotification("Brought to you by CrabGuy", "Thanks for using the script <3\nDiscord Server Invite: https://discord.gg/5NYqSVwH9Q", 9e9)
 
-local BossTable = {}
-for i, v in pairs(QuestModule) do
-    if v.Amount == 1 then
-        table.insert(BossTable, v.Target)
+while true do task.wait()
+    for i, NpcName in pairs(NpcNames) do
+        local SpawnPart = workspace:WaitForChild("Spawns"):WaitForChild(NpcName, 5)
+        if not SpawnPart then
+            NotificationLibrary.CustomNotification("Enemy not found", "Incorrect NpcName probably", 9e9)
+            return
+        end
+        local Npc = SpawnPart:WaitForChild(NpcName, 2)
+        if Npc then
+            TakeQuest(NpcName)
+            KillNpc(Npc)
+        end
+    end
+    if _G.AutoRejoin then
+        break
     end
 end
-
-for i, v in pairs(BossTable) do
-    local Npc = game:GetService("Workspace").Spawns:WaitForChild(v):WaitForChild(v)
-    KillNpc(Npc)
-end
+ServerHop()
