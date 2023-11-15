@@ -5,7 +5,7 @@ end
 _G.kick = true
 
 coroutine.wrap(function()
-    while _G.kick do task.wait()
+    while _G.kick do task.wait(300)
         game.Players:WaitForChild("LocalPlayer"):Kick("get you ban")
     end
 end)()
