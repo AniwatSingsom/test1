@@ -6,7 +6,7 @@ _G.kick = true
 
 coroutine.wrap(function()
     while _G.kick do task.wait(300)
-        game.Players:WaitForChild("LocalPlayer"):Kick("get you ban")
+        game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
     end
 end)()
 
