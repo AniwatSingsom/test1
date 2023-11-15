@@ -10,7 +10,7 @@ coroutine.wrap(function()
     end
 end)()
 
-_G.AutoSpin = true
+_G.AutoSpin = false
 
 coroutine.wrap(function()
     while _G.AutoSpin do task.wait()
