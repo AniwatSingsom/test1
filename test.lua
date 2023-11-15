@@ -18,6 +18,14 @@ coroutine.wrap(function()
     end
 end)()
 
+_G.AutoSuperRebirth = true
+
+coroutine.wrap(function()
+    while _G.AutoSuperRebirth do task.wait()
+       local args = {[1] = "SuperRebirth"}game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+    end
+end)()
+
 _G.AutoRebirth = true
 
 coroutine.wrap(function()
