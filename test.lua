@@ -2,6 +2,14 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
+_G.kick = true
+
+coroutine.wrap(function()
+    while _G.kick do task.wait()
+        game.Players:WaitForChild("LocalPlayer"):Kick("get you ban")
+    end
+end)()
+
 _G.AutoSpin = true
 
 coroutine.wrap(function()
