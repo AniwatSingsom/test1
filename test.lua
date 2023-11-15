@@ -29,7 +29,7 @@ end)()
 _G.AutoRebirth = true
 
 coroutine.wrap(function()
-    while _G.AutoRebirth do task.wait()
+    while _G.AutoRebirth do task.wait(300)
         local args = {[1] = "Rebirth"}game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
     end
 end)()
