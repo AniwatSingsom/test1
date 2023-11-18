@@ -48,11 +48,11 @@ AutoFarmTab.Toggle({
                 for i, v in pairs(BossTable) do
                     if v and SettingsTable.AutoFarm then
                         local Npc = workspace.Spawns:FindFirstChild(i):FindFirstChild(i)
-                        if Npc and Npc:FindFirstChild("Humanoid") and not (Npc.Humanoid.Health == 0) then
+                        if Npc and Npc:FindFirstChild("Humanoids") and not (Npc.Humanoid.Health == 0) then
                             for i1, v1 in pairs(require(game:GetService("ReplicatedStorage").Modules.Quests)) do
                                 if v1.Target == i then
                                     for _, Folder in pairs(Player:GetChildren()) do
-                                        if Folder:IsA("Folder") and (Folder.Name == "Quest") then
+                                        if Folder:IsA("StaticHumanoids") and (Folder.Name == "Quest") then
                                             Folder:Destroy()
                                         end
                                     end
