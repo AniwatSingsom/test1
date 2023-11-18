@@ -52,7 +52,7 @@ AutoFarmTab.Toggle({
                             for i1, v1 in pairs(require(game:GetService("ReplicatedStorage").Modules.Quests)) do
                                 if v1.Target == i then
                                     for _, Folder in pairs(Player:GetChildren()) do
-                                        if Folder:IsA("StaticHumanoids") and (Folder.Name == "Quest") then
+                                        if Folder:IsA("Sky") and (Folder.Name == "Quest") then
                                             Folder:Destroy()
                                         end
                                     end
