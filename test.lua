@@ -17,7 +17,7 @@ _G.skillbypass2 = true
 coroutine.wrap(function()
     while _G.skillbypass2 do task.wait()
         local args = {
-            [1] = "FrostPhoenixAttack1",
+            [1] = "FrostPhoenixAttack2",
             [2] = Vector3.new(1335.976318359375, 14234.0791015625, -884.5792236328125),
             [3] = Vector3.new(1335.976318359375, 14234.0791015625, -884.5792236328125)
         }
