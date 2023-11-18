@@ -1,7 +1,5 @@
-_G.skill = true
-    while _G.skill do task.wait()
-coroutine.wrap(function()
-    while true do task.wait()
+while true do
+    wait()
         local args = {
             [1] = "FrostPhoenixAttack1",
             [2] = Vector3.new(1346.30322265625, 14533.12890625, -879.076904296875),
@@ -9,9 +7,6 @@ coroutine.wrap(function()
         }
         
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
-        
-end
-end)()
 end
 
 _G.quest = true
