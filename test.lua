@@ -8,16 +8,7 @@ coroutine.wrap(function()
             [3] = Vector3.new(1335.976318359375, 14234.0791015625, -884.5792236328125)
         }
         
-        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
-            wait(3)
-        local args = {
-            [1] = "FrostPhoenixAttack2",
-            [2] = Vector3.new(1335.976318359375, 14234.0791015625, -884.5792236328125),
-            [3] = Vector3.new(1335.976318359375, 14234.0791015625, -884.5792236328125)
-        }
-        
-        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
-            
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))            
     end
 end)()
 
