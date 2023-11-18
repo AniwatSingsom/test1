@@ -89,11 +89,11 @@ local function TakeQuest(QuestNpcName)
     for i, v in pairs(QuestModule) do
         if v.Target == QuestNpcName then
             for _, Folder in pairs(Player:GetChildren()) do
-                if Folder:IsA("Folder") and (Folder.Name == "Quest") then
+                if Folder:IsA("Folder") and (Folder.Name == "StaticHumanoids") then
                     Folder:Destroy()
                 end
             end
-            game:GetService("ReplicatedStorage").RemoteEvent:FireServer("GetQuest", i)
+            game:GetService("ReplicatedStorage").RemoteEvent:FireServer("GetAscendedQuest", i)
             Player:WaitForChild("Quest")
             break
         end
