@@ -1,25 +1,35 @@
-local Material = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/MaterialLua/master/Module.lua"))()
-local SettingsLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Suricato006/Scripts-Made-by-me/master/Libraries/SaveSettingsLibrary.lua"))()
-local InputLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Suricato006/Scripts-Made-by-me/master/Libraries/InputFunctions%20Library.lua"))()
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+
+task.wait(5)
+
+_G.AutoRejoin = true
+
+local QuestModule = require(game:GetService("ReplicatedStorage").Modules.Quests)
+
+local BossTable = {}
+for i, v in pairs(QuestModule) do
+    if v.Amount == 1 then
+        table.insert(BossTable, v.Target)
+    end
+end
+
+local NpcNames = {}
+for i = 0, 2 do
+   table.insert(NpcNames, BossTable[#BossTable - i])
+end
+
 local Player = game.Players.LocalPlayer
+local NotificationLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Suricato006/Scripts-Made-by-me/master/Libraries/Notification%20Library%20Optimization.lua"))()
+local InputLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Suricato006/Scripts-Made-by-me/master/Libraries/InputFunctions%20Library.lua"))()
 
-local FileName = "AHeroDestiny.CRAB"
-local SettingsTable = SettingsLibrary.LoadSettings(FileName)
-
-local CrabHub = Material.Load({
-	Title = "CrabHub",
-	Style = 3,
-	SizeX = 500,
-	SizeY = 350,
-	Theme = "Light",
-})
-
-local AutoFarmTab = CrabHub.New({
-	Title = "AutoFarm"
-})
+if syn and _G.AutoRejoin then
+    syn.queue_on_teleport(game:HttpGet("https://raw.githubusercontent.com/Suricato006/Scripts-Made-by-me/master/Scripts/RandomScripts/A%20Hero%20Desiny/SpamKillBoss.lua"))
+end
 
 local function RemoteAttack(Number, AttackPosition)
-    if Player.Stats.Class.Value == "Angel" then
+    if Player:WaitForChild("Stats"):WaitForChild("Class").Value == "Angel" then
         Player.Stats.Class.Value = "Puri Puri"
     end
     if Player.Stats.Class.Value == "Toxin" then
@@ -27,131 +37,86 @@ local function RemoteAttack(Number, AttackPosition)
     end
     local ClassString = string.gsub(Player.Stats.Class.Value, " ", "")
     local AttackArg = ClassString.."Attack"..tostring(Number)
-    game:GetService("ReplicatedStorage").RemoteEvent:FireServer(AttackArg, AttackPosition)
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(AttackArg, AttackPosition)
+end
+
+if Player.Character:FindFirstChild("Form") and (Player.Character.Form.Value == "") then
+    RemoteAttack(6)
 end
 
 Player.CharacterAdded:Connect(function()
     task.wait(2)
     RemoteAttack(6)
 end)
-
-local BossTable = {}
-AutoFarmTab.Toggle({
-	Text = "Autofarm",
-	Callback = function(Value)
-		SettingsTable.AutoFarm = Value
-        if Player.Character:FindFirstChild("Form") and (Player.Character.Form.Value == "") then
-            RemoteAttack(6)
+local function KillNpc(Npc)
+    local EHum = Npc:WaitForChild("Humanoid")
+    local EHrp = Npc:WaitForChild("HumanoidRootPart")
+    while true do task.wait()
+        local Char = Player.Character or Player.CharacterAdded:Wait()
+        local Hrp = Char:WaitForChild("HumanoidRootPart")
+        if EHum.Health == 0 then
+            break
         end
-        coroutine.wrap(function()
-            while SettingsTable.AutoFarm do task.wait()
-                for i, v in pairs(BossTable) do
-                    if v and SettingsTable.AutoFarm then
-                        local Npc = workspace.Spawns:FindFirstChild(i):FindFirstChild(i)
-                        if Npc and Npc:FindFirstChild("Humanoids") and not (Npc.Humanoid.Health == 0) then
-                            for i1, v1 in pairs(require(game:GetService("ReplicatedStorage").Modules.Quests)) do
-                                if v1.Target == i then
-                                    for _, Folder in pairs(Player:GetChildren()) do
-                                        if Folder:IsA("Sky") and (Folder.Name == "Quest") then
-                                            Folder:Destroy()
-                                        end
-                                    end
-                                    game:GetService("ReplicatedStorage").RemoteEvent:FireServer("GetAscendedQuest", i1)
-                                    Player:WaitForChild("Quest")
-                                    break
-                                end
-                            end
-                            local EHum = Npc:WaitForChild("Humanoid")
-                            local EHrp = Npc:WaitForChild("HumanoidRootPart")
-                            while SettingsTable.AutoFarm do task.wait()
-                                local Char = Player.Character or Player.CharacterAdded:Wait()
-                                local Hrp = Char:WaitForChild("HumanoidRootPart")
-                                if EHum.Health == 0 then
-                                    break
-                                end
-                                Hrp.CFrame = CFrame.new(EHrp.Position - EHrp.CFrame.LookVector * 3, EHrp.Position)
-                                InputLibrary.CenterMouseClick()
-                                for Number=1, 5 do
-                                    RemoteAttack(Number, EHrp.Position)
-                                end
-                            end
-                        end
-                    end
+        Hrp.CFrame = CFrame.new(EHrp.Position - EHrp.CFrame.LookVector * 3, EHrp.Position)
+        InputLibrary.CenterMouseClick()
+        for Number=1, 5 do
+            RemoteAttack(Number, EHrp.Position)
+        end
+    end
+end
+
+local function ServerHop()
+    while true do
+        pcall(function()
+            local x = {}
+            for _, v in ipairs(game:GetService("HttpService"):JSONDecode(game:HttpGetAsync("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")).data) do
+                if type(v) == "table" and v.maxPlayers > v.playing and v.id ~= game.JobId then
+                    x[#x + 1] = v.id
                 end
             end
-        end)()
-	end,
-	Enabled = SettingsTable.AutoFarm
-})
-
-for i, v in pairs(require(game:GetService("ReplicatedStorage").Modules.Quests)) do
-    if v.Amount == 1 then
-        BossTable[v.Target] = false
+            if #x > 0 then
+                game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, x[math.random(1, #x)])
+                return
+            else
+                NotificationLibrary.CustomNotification("Error", "Couldn't find any server to join")
+            end
+        end)
+        task.wait(1)
     end
 end
 
-if SettingsTable.SavedTable then
-    for i, v in pairs(BossTable) do
-        if not SettingsTable.SavedTable[i] then
-            SettingsTable.SavedTable[i] = false
-        end
-    end
-else
-    SettingsTable.SavedTable = BossTable
-end
-
-AutoFarmTab.DataTable({
-	Text = "Chipping away",
-	Callback = function(ChipSet)
-        for i, v in pairs(ChipSet) do
-            BossTable[i] = v
-            SettingsTable.SavedTable[i] = v
-        end
-	end,
-	Options = SettingsTable.SavedTable
-})
-
-local SpinTab = CrabHub.New({
-	Title = "AutoSpin"
-})
-
-local SpinTable = {}
-local SpinToggle = nil
-SpinToggle = SpinTab.Toggle({
-	Text = "AutoSpin",
-	Callback = function(Value)
-		SettingsTable.AutoSpin = Value
-        coroutine.wrap(function()
-            while SettingsTable.AutoSpin do task.wait()
-                game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer()
-                for i, v in pairs(SpinTable) do
-                    if SpinTable[Player.Stats.Class.Value] then
-                        SpinToggle:SetState(false)
-                        break
-                    end
+local function TakeQuest(QuestNpcName)
+    for i, v in pairs(QuestModule) do
+        if v.Target == QuestNpcName then
+            for _, Folder in pairs(Player:GetChildren()) do
+                if Folder:IsA("Folder") and (Folder.Name == "Quest") then
+                    Folder:Destroy()
                 end
             end
-        end)()
-	end,
-	Enabled = SettingsTable.AutoSpin
-})
-
-for i, v in pairs(require(game:GetService("ReplicatedStorage").Modules.Classes).Lucky) do
-    SpinTable[v.Item] = false
+            game:GetService("ReplicatedStorage").RemoteEvent:FireServer("GetQuest", i)
+            Player:WaitForChild("Quest")
+            break
+        end
+    end
 end
 
-SpinTab.DataTable({
-	Text = "Chipping away",
-	Callback = function(ChipSet)
-        for i, v in pairs(ChipSet) do
-            SpinTable[i] = v
-        end
-	end,
-	Options = SpinTable
-})
+NotificationLibrary.CustomNotification("Brought to you by CrabGuy", "Thanks for using the script <3\nDiscord Server Invite: https://discord.gg/5NYqSVwH9Q", 9e9)
 
-game.Players.PlayerRemoving:Connect(function(PlayerRemoving)
-    if PlayerRemoving == Player then
-        SettingsLibrary.SaveSettings(FileName, SettingsTable)
+while true do task.wait()
+    for i, NpcName in pairs(NpcNames) do
+        local SpawnPart = workspace:WaitForChild("Spawns"):WaitForChild(NpcName, 5)
+        if not SpawnPart then
+            NotificationLibrary.CustomNotification("Enemy not found", "Incorrect NpcName probably", 9e9)
+            return
+        end
+        local Npc = SpawnPart:WaitForChild(NpcName, 2)
+        if Npc then
+            TakeQuest(NpcName)
+            KillNpc(Npc)
+        end
     end
-end)
+    if _G.AutoRejoin then
+        break
+    end
+end
+ServerHop()
