@@ -1,7 +1,7 @@
 _G.skill = true
-
-coroutine.wrap(function()
     while _G.skill do task.wait()
+coroutine.wrap(function()
+    while true do task.wait()
         local args = {
             [1] = "FrostPhoenixAttack1",
             [2] = Vector3.new(1346.30322265625, 14533.12890625, -879.076904296875),
@@ -12,6 +12,7 @@ coroutine.wrap(function()
         
 end
 end)()
+end
 
 _G.quest = true
 
