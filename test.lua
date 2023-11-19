@@ -6,7 +6,7 @@ Wait(20)
 _G.skillbypass1 = true
 
 coroutine.wrap(function()
-    while _G.skillbypass1 do task.wait()
+    while _G.skillbypass1 do task.wait(2)
         local args = {
             [1] = "FrostPhoenixAttack1",
             [2] = Vector3.new(1346.30322265625, 14533.12890625, -879.076904296875),
@@ -20,7 +20,7 @@ end)()
 _G.skillbypass2 = true
 
 coroutine.wrap(function()
-    while _G.skillbypass2 do task.wait()
+    while _G.skillbypass2 do task.wait(2)
         local args = {
             [1] = "FrostPhoenixAttack2",
             [2] = Vector3.new(1335.976318359375, 14234.0791015625, -884.5792236328125),
@@ -44,7 +44,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpa
     end
 end)()
 
-wait(100)
+wait(150)
 
 local module = loadstring(game:HttpGet"https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua")()
 
