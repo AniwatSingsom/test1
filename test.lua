@@ -1,6 +1,7 @@
 if not game:IsLoaded() then
-    game.Loaded:Wait(10)
+    game.Loaded:Wait()
 end
+Wait(30)
 
 _G.skillbypass1 = true
 
