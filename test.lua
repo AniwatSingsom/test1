@@ -1,7 +1,7 @@
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
-Wait(30)
+Wait(20)
 
 _G.skillbypass1 = true
 
@@ -44,7 +44,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpa
     end
 end)()
 
-wait(250)
+wait(150)
 
 local module = loadstring(game:HttpGet"https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua")()
 
