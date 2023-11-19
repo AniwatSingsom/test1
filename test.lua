@@ -1,3 +1,7 @@
+if not game:IsLoaded() then
+    game.Loaded:Wait(10)
+end
+
 _G.skillbypass1 = true
 
 coroutine.wrap(function()
