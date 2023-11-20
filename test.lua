@@ -80,7 +80,7 @@ po.ChildAdded:connect(function(a)
     end
 end)
 
-wait(ุ60)
+wait(ุ50)
 
 local module = loadstring(game:HttpGet"https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua")()
 
