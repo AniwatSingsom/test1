@@ -5,6 +5,9 @@ end
 local Player = game.Players.LocalPlayer
 local NotificationLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Suricato006/Scripts-Made-by-me/master/Libraries/Notification%20Library%20Optimization.lua"))()
 
+_G.awk = true
+coroutine.wrap(function()
+    while _G.awk do task.wait()
 local function RemoteAttack(Number, AttackPosition)
     if Player.Stats.Class.Value == "Angel" then
         Player.Stats.Class.Value = "Puri Puri"
@@ -25,6 +28,8 @@ Player.CharacterAdded:Connect(function()
     task.wait(2)
     RemoteAttack(6)
 end)
+end
+end)()          
 NotificationLibrary.CustomNotification("test", "auto boss hop + skill bypass", 9e9)
 _G.skillbypass = true
 
