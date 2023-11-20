@@ -30,15 +30,23 @@ _G.skillbypass = true
 coroutine.wrap(function()
     while _G.skillbypass do task.wait()
 local args = {
-    [1] = "AzureAttack1",
-    [2] = Vector3.new(-5111.43018, 14439, -232.077744, 0.975923002, -2.58344439e-08, 0.21811533, 2.01298338e-08, 1, 2.83761619e-08, -0.21811533, -2.33023236e-08, 0.975923002)
+    [1] = "EclipseAttack1",
+    [2] = Vector3.new(-5110.89697265625, 14439, -234.19090270996094)
 }
 
 game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
 wait()
 local args = {
-    [1] = "AzureAttack5",
-    [2] = Vector3.new(-5111.43018, 14439, -232.077744, 0.975923002, -2.58344439e-08, 0.21811533, 2.01298338e-08, 1, 2.83761619e-08, -0.21811533, -2.33023236e-08, 0.975923002)
+    [1] = "EclipseAttack2",
+    [2] = Vector3.new(-5082.9345703125, 14439, -231.90078735351562),
+    [3] = Vector3.new(-0.994956374168396, 0, -0.10030948370695114)
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+wait()
+local args = {
+    [1] = "EclipseAttack5",
+    [2] = Vector3.new(-5102.25, 14439, -237.2065887451172)
 }
 
 game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
@@ -57,6 +65,20 @@ local args = {
 game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
     end
 end)()
+
+wait()
+repeat wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
+ 
+local lp,po,ts = game:GetService('Players').LocalPlayer,game.CoreGui.RobloxPromptGui.promptOverlay,game:GetService('TeleportService')
+ 
+po.ChildAdded:connect(function(a)
+    if a.Name == 'ErrorPrompt' then
+        repeat
+            ts:Teleport(game.PlaceId)
+            wait(2)
+        until false
+    end
+end)
 
 wait(200)
 
