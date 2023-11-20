@@ -66,7 +66,6 @@ game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpa
     end
 end)()
 
-wait()
 repeat wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
  
 local lp,po,ts = game:GetService('Players').LocalPlayer,game.CoreGui.RobloxPromptGui.promptOverlay,game:GetService('TeleportService')
