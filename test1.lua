@@ -3,7 +3,7 @@ if not game:IsLoaded() then
 end
 local Player = game.Players.LocalPlayer
 local NotificationLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Suricato006/Scripts-Made-by-me/master/Libraries/Notification%20Library%20Optimization.lua"))()
-NotificationLibrary.CustomNotification("test", "auto boss hop + skill bypass", 9e9)
+
 local function RemoteAttack(Number, AttackPosition)
     if Player.Stats.Class.Value == "Angel" then
         Player.Stats.Class.Value = "Puri Puri"
@@ -78,9 +78,9 @@ po.ChildAdded:connect(function(a)
         until false
     end
 end)
-
+NotificationLibrary.CustomNotification("test", "auto boss hop + skill bypass", 9e9)
 wait(50)
-
+NotificationLibrary.CustomNotification("test", "server hop", 9e9)
 local module = loadstring(game:HttpGet"https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua")()
 
 module:Teleport(game.PlaceId)
