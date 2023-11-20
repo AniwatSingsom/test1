@@ -66,19 +66,6 @@ game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpa
     end
 end)()
 
-repeat wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
- 
-local lp,po,ts = game:GetService('Players').LocalPlayer,game.CoreGui.RobloxPromptGui.promptOverlay,game:GetService('TeleportService')
- 
-po.ChildAdded:connect(function(a)
-    if a.Name == 'ErrorPrompt' then
-        repeat
-            ts:Teleport(game.PlaceId)
-            wait(2)
-        until false
-    end
-end)
-
 wait(ุ50)
 
 local module = loadstring(game:HttpGet"https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua")()
