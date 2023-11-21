@@ -81,7 +81,12 @@ po.ChildAdded:connect(function(a)
 end)
 NotificationLibrary.CustomNotification("test", "auto boss hop + skill bypass", 9e9)
 wait(50)
+_G.hop = true
+coroutine.wrap(function()
+    while _G.hop do task.wait()
 NotificationLibrary.CustomNotification("test", "server hop", 9e9)
 local module = loadstring(game:HttpGet"https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua")()
 
 module:Teleport(game.PlaceId)
+    end
+end)()
