@@ -4,7 +4,7 @@ end
 local Player = game.Players.LocalPlayer
 local NotificationLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Suricato006/Scripts-Made-by-me/master/Libraries/Notification%20Library%20Optimization.lua"))()
 
-
+wait()
 local function RemoteAttack(Number, AttackPosition)
     if Player.Stats.Class.Value == "Angel" then
         Player.Stats.Class.Value = "Puri Puri"
