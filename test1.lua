@@ -85,3 +85,5 @@ NotificationLibrary.CustomNotification("test", "server hop", 9e9)
 local module = loadstring(game:HttpGet"https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua")()
 
 module:Teleport(game.PlaceId)
+wait(10)
+game.Players.LocalPlayer:Kick("kick")
