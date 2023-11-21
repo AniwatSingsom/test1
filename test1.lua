@@ -89,16 +89,6 @@ local Deleted = false
 local S_T = game:GetService("TeleportService")
 local S_H = game:GetService("HttpService")
 
-local File = pcall(function()
-	AllIDs = S_H:JSONDecode(readfile("server-hop-temp.json"))
-end)
-if not File then
-	table.insert(AllIDs, actualHour)
-	pcall(function()
-		writefile("server-hop-temp.json", S_H:JSONEncode(AllIDs))
-	end)
-
-end
 local function TPReturner(placeId)
 	local Site;
 	if foundAnything == "" then
