@@ -80,7 +80,7 @@ po.ChildAdded:connect(function(a)
     end
 end)
 NotificationLibrary.CustomNotification("test", "auto boss hop + skill bypass", 9e9)
-wait(20)
+wait(10)
 NotificationLibrary.CustomNotification("test", "server hop", 9e9)
 local module = loadstring(game:HttpGet"https://raw.githubusercontent.com/LeoKholYt/roblox/main/lk_serverhop.lua")()
 
