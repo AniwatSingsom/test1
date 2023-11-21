@@ -79,6 +79,7 @@ po.ChildAdded:connect(function(a)
         until false
     end
 end)
+
 wait(10)
 NotificationLibrary.CustomNotification("test", "server hop", 9e9)
 loadstring(game:HttpGet("https://pastebin.com/raw/VduBT2nt"))()
