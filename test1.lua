@@ -66,22 +66,3 @@ local args = {
 game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
     end
 end)()
-
-repeat wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
- 
-local lp,po,ts = game:GetService('Players').LocalPlayer,game.CoreGui.RobloxPromptGui.promptOverlay,game:GetService('TeleportService')
- 
-po.ChildAdded:connect(function(a)
-    if a.Name == 'ErrorPrompt' then
-        repeat
-            ts:Teleport(game.PlaceId)
-            wait(2)
-        until false
-    end
-end)
-NotificationLibrary.CustomNotification("test", "auto boss hop + skill bypass", 9e9)
-wait(10)
-NotificationLibrary.CustomNotification("test", "server hop", 9e9)
-
-wait(10)
-game.Players.LocalPlayer:Kick("kick")
